@@ -1,1 +1,1 @@
-Simple Web app where users can view profiles, chat, post stuff.
+Simple web app where users can view profiles, chat, post stuff.
