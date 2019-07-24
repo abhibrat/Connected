@@ -37,3 +37,10 @@ class Post(models.Model):
 	content  = models.TextField(max_length=5000)
 	profile = models.ForeignKey(Profile, on_delete= models.CASCADE, blank=True)
 
+class Comments(models.Model):
+	post = models.ForeignKey(Post, on_delete =models.CASCADE, blank=True)
+	content = models.TextField(max_length=5000)
+	commenter = models.TextField(max_length=50)	
+
+	
+

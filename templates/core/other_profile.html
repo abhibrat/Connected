@@ -19,16 +19,17 @@
   <li>Birth Date: {{ user.profile.birth_date }}</li>
 </ul>
 
-<h4>
+<p>
 <!-- 	{% if feeds %} -->
-	Feed:
+	<h3>Feed:</h3>
 	{% for feed in feeds %}
 	{{ feed.heading }}
-	{{ feed.content }}
+	<p>{{ feed.content }}</p>
+	<br>
 	{% endfor %}
 	<!-- {% endif %} -->
 
-</h4>
+</p>
 
 	<a href="{% url 'core:logout'  %}">Logout</a>
 </body>

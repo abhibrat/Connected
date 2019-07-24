@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from . models import Profile,Post
+from . models import Profile,Post,Comments
 from django import forms
 
 
@@ -19,3 +19,9 @@ class PostForm(forms.ModelForm):
 	class Meta:
 		model = Post
 		fields=['heading', 'content']
+
+
+class CommentForm(forms.ModelForm):
+	class Meta:
+		model = Comments
+		fields=['content']		

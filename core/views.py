@@ -6,10 +6,10 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .forms import UserForm, ProfileForm, PostForm
+from .forms import UserForm, ProfileForm, PostForm,CommentForm
 from django.db import transaction
 from .models import Followers
-from . models import Following, Post
+from . models import Following, Post, Comments
 #from .models import Profile
 #from .models import UserProfile
 
@@ -44,7 +44,8 @@ def ProfileView(request, username):
         user  = User.objects.get(username=username)
         following= request.user.profile.following_set.all()
         feeds  = Post.objects.all()
-        return render(request, 'core/profile.html',{'user' : user, 'following': following, 'feeds':feeds} )
+        comments= Comments.objects.all()
+        return render(request, 'core/profile.html',{'user' : user, 'following': following, 'feeds':feeds, 'comments':comments} )
 
     else :
         user  = User.objects.get(username=username)
@@ -105,6 +106,48 @@ def create_post(request,username):
     else:
         post_form=PostForm()
     return render(request,'core/post.html',{'post_form':post_form})            
+
+
+@login_required
+def create_comment(request,username,post_id):
+    post=Post.objects.get(pk=post_id)
+    if request.method=='POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment=comment_form.save(commit=False)
+            post=Post.objects.get(id=post_id)
+            a=Post.objects.get(id=post_id)
+            comment.post=a
+            comment.commenter=username
+            # post.heading = post_form.heading
+            # post.content = post_form.content
+            #post_form.heading = request.POST['heading']
+            #post_form.content = request.POST['content']
+            comment.save()
+            #post_form.save()
+            
+            #messages.success(request, 'Your profile was successfully updated!')
+            return redirect('core:profile', username=username)
+    else:
+        comment_form=CommentForm()
+        #post=Post.objects.get(pk=post_id)
+    return render(request,'core/comment.html',{'post':post, 'comment_form':comment_form}) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # class UserProfileCreate(generic.edit.CreateView):
